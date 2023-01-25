@@ -14,6 +14,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $name = test_input($_POST["name"]);
   $email = test_input($_POST["email"]);
   $gender = test_input($_POST["gender"]);
+  if(filter_var($email ,FILTER_VALIDATE_EMAIL)== TRUE && empty($name) == FALSE && empty($gender) == FALSE){
+      $correctemail ="<html>
+    <head>
+       <title></title> </head>
+    <body>
+    <form method ='post' action ='newEmptyPHP.php'>
+    <h4>Perfect! the details are valid . To verify yourself with the 2 step verification kindly click on the button below</h4>
+    <input type='submit' name='submitcode' value ='Submit'>  
+    </form>
+    </body>
+</html>";
+      echo $correctemail;
+      
+  }
+  if(filter_var($email ,FILTER_VALIDATE_EMAIL)== FALSE){
+      $incorrectemail ="email is incorrect . Kindly try again";
+      echo $incorrectemail;
+  }
 }
 
 function test_input($data) {
