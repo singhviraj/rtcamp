@@ -8,25 +8,25 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Project/PHP/PHPProject.php to edi
         <meta charset="UTF-8">
         <title></title>
         <?php
-        $name = $email = $gender = $password1 =$password2 = "";
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $name = test_input($_POST["name"]);
   $email = test_input($_POST["email"]);
   $password1 = test_input($_POST["password1"]);
   $password2 = test_input($_POST["password2"]);
   if(filter_var($email ,FILTER_VALIDATE_EMAIL)== TRUE && empty($name) == FALSE && $password1 == $password2){
-      
+      $random = rand(10,1000);
+      mail("test2mail2698@gmail.com", "one time code", $random);
       $correctemail ="<html>
     <head>
        <title></title> </head>
     <body>
     <form method ='post' action ='verify2sv.php'>
-    To verify if <input type='text' name='name' value =$name> is the owner of email"
-              . " <input type='text' name='email' value =$email> we have send a one time code ,
-                  to receive the code kindly click on the button below
-    <input type='submit' name='submitcode' value ='Submit'> 
-    
+    <input type='hidden' name='hiddencode' value =$random>
+    <input type='hidden' name='name' value =$name>
+    <input type='hidden' name='email' value =$email> 
+    <input type='hidden' name='password' value =$password1>
+     <input type='number' name='twosvcode' >   
+    <input type='submit' name='submitcode' value ='Submit'>
     </form>
     </body>
 </html>";
@@ -65,9 +65,4 @@ function test_input($data) {
 </form>
     </body>
 </html>
-  <?php
-echo "<h2>Enter your 2sv code here:</h2>";
-echo "your name".$name;
-echo "your name".$email;
-
-     ?>
+  

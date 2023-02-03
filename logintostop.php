@@ -19,7 +19,32 @@ if ($conn->connect_error) {
 $email = test_input($_POST["email"]);
     $accountpassword = test_input($_POST["password"]);
  
+if(empty($accountpassword)== FALSE && empty($email)== FALSE){
+    $sql1 = "SELECT name FROM t20 WHERE email ='$email' AND password='$accountpassword' ";
+$result1 = $conn->query($sql1);
+
+ if ($result1->num_rows > 0) {
+  // output data of each row
+     $sql2 = "DELETE code FROM t20 WHERE email = '$email'";
+     $result2=$conn->query($sql2);
+     if ($result2->num_rows > 0){
+         echo'code is deleted';
+         
+     }
+     if ($result2->num_rows == 0){
+         echo"the mails have already stopped . You can stop them again once you start again";
+            
+     }
+ }
+    if($result1->num_rows == 0){
+        echo 'either one is incorrect';
+    }
+  }
 }
+if(empty($accountpassword)== TRUE || empty($email)== TRUE){
+    
+}
+
 ?>
 
 <html>

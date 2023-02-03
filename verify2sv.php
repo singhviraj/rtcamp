@@ -27,11 +27,11 @@ if ($conn->connect_error) {
 else{
     echo"created successfully";
 }
-
-$sql = "CREATE TABLE t20 (name varchar(10),email varchar(30),password varchar(20),code varchar(5))";
-if($conn->query($sql)){
-    echo'table created';
-}
+//do not want to create the table again so commenting it 
+//$sql = "CREATE TABLE t20 (name varchar(10),email varchar(30),password varchar(20),code varchar(5))";
+//if($conn->query($sql)){
+  //  echo'table created';
+//}
 
 $stmt = $conn->prepare("INSERT INTO t20 (name, email, password,code) VALUES (?, ?, ?,?)");
 $stmt->bind_param("ssss", $name, $email, $accountpassword,$twosvcode);

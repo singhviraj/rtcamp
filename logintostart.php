@@ -29,9 +29,10 @@ if(empty($accountpassword)== FALSE && empty($email)== FALSE){
 $sql1 = "SELECT name FROM t20 WHERE email ='$email' AND password='$accountpassword' ";
 $result1 = $conn->query($sql1);
 
+function checkcode($resultx1){
  if ($result1->num_rows > 0) {
   // output data of each row
-     $sql2 = "SELECT code FROM t20 WHERE email ='$email'";
+          $sql2 = "SELECT code FROM t20 WHERE email ='$email'";
      $result2=$conn->query($sql2);
      if ($result2->num_rows > 0){
          echo'code is present';
@@ -41,11 +42,13 @@ $result1 = $conn->query($sql1);
      }
      if ($result2->num_rows == 0){
          $random =rand(10,1000);
-            $sql3 = "INSERT INTO t20(code) VALUES('$random')";
+            $sql3 = "UPDATE t20 SET code = '$random' WHERE email='$email'";
             $result3 =$conn->query($sql3);
-            
+            checkcode($result1);
      }
- }
+}
+     }
+     checkcode($result1);
     if($result1->num_rows == 0){
         echo 'either one is incorrect';
     }
@@ -169,6 +172,11 @@ $subject = 'hey';
   <br><br>
      <input type="submit" name="submit" value="Submit"> 
 </form>
+       <br>
+       <a href="index.php">click to create account</a><br>
+       <br>
+        <a href ="logintostop.php"> click to stop emails</a>
+        <br>
     </body>
 </html>
   
