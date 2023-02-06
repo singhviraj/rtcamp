@@ -5,7 +5,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHP.php to edit this template
  */
 
-//ini_set('max_execution_time', 300);// i have not included this line in the commit
+ini_set('max_execution_time', 0);// i have not included this line in the commit
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
     $email = test_input($_POST["email"]);
@@ -29,30 +29,17 @@ if(empty($accountpassword)== FALSE && empty($email)== FALSE){
 $sql1 = "SELECT name FROM t20 WHERE email ='$email' AND password='$accountpassword' ";
 $result1 = $conn->query($sql1);
 
-function checkcode($resultx1){
  if ($result1->num_rows > 0) {
   // output data of each row
-          $sql2 = "SELECT code FROM t20 WHERE email ='$email'";
-     $result2=$conn->query($sql2);
-     if ($result2->num_rows > 0){
-         echo'code is present';
          $x =date('i');
  $y =date('i')+ 1; 
- onrepeat($x,$y);
-     }
-     if ($result2->num_rows == 0){
-         $random =rand(10,1000);
-            $sql3 = "UPDATE t20 SET code = '$random' WHERE email='$email'";
-            $result3 =$conn->query($sql3);
-            checkcode($result1);
-     }
-}
-     }
-     checkcode($result1);
+ onrepeatcode($x,$y,$conn);
+ }
     if($result1->num_rows == 0){
-        echo 'either one is incorrect';
+        echo 'either your password or username is incorrect . Kindly check again or create an account';
     }
-  }
+}
+  
  if(empty($accountpassword)== TRUE || empty($email)== TRUE){
     echo'you can not leave it blank';
 }
@@ -63,31 +50,42 @@ function test_input($data) {
   $data = htmlspecialchars($data);
   return $data;
 }
-
-function onrepeat($a ,$b){
-     for($i=1;$i>0;$i++){
+function onrepeatcode($a,$b,$conn1){
+    $sql4 = "SELECT code FROM t20 WHERE email ='$email'";
+    $res1 =$conn1->query($sql4);
+    if($res1->num_rows >0){
+for($i=1;$i>0;$i++){
          $temp = date('i');
          if($b>60){
              $b =$b-60;
              if($b==$temp){
                 $a= $temp;
                 $b =$a+1;
-                $rep =rand(1,1000);
-                repeatingimage($rep);
-                onrepeat($a ,$b);
+                $apirandom =rand(1,1000);
+                 repeatingimage($apirandom);
+                onrepeatcode($a ,$b,$conn1);
                  }
          }
          if($b<=60){
             if($b==$temp){
                 $a= $temp;
                 $b =$a+1;
-                 $rep =rand(1,1000);
-                 repeatingimage($rep);
-                onrepeat($a ,$b);
+                $apirandom =rand(1,1000);
+                 repeatingimage($apirandom);
+                onrepeatcode($a ,$b,$conn1);
                  } 
          }        
-     }
+    }}
+    if($res1->num_rows ==0){
+        $random =rand(10,1000);
+            $sql3 = "UPDATE t20 SET code = '$random' WHERE email='$email'";
+            $result3 =$conn->query($sql3);
+            $a = date('i');
+            $b =date('i')+1;
+            onrepeatcode($a,$b,$conn1);
+    }
 }
+
 
 function repeatingimage($rep1){
 $img= "https://xkcd.com/".$rep1."/info.0.json";
