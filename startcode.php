@@ -5,55 +5,25 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHP.php to edit this template
  */
 
-ini_set('max_execution_time', 0);// i have not included this line in the commit
-
+session_start();
+ini_set('max_execution_time', 300);
 if($_SERVER["REQUEST_METHOD"] == "POST"){
-    $email = test_input($_POST["email"]);
-    $accountpassword = test_input($_POST["password"]);
     
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "test";
+$x = date("i");
+$y = date("i") +1 ;
+$email = $_POST["hiddenemail"];
+onrepeatcode($x,$y,$email);
 
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
 }
-
-if(empty($accountpassword)== FALSE && empty($email)== FALSE){
+function onrepeatcode($a ,$b,$email1){
     
-$sql1 = "SELECT name FROM t20 WHERE email ='$email' AND password='$accountpassword' ";
-$result1 = $conn->query($sql1);
-
- if ($result1->num_rows > 0) {
-  // output data of each row
-         $x =date('i');
- $y =date('i')+ 1; 
- onrepeatcode($x,$y,$conn);
- }
-    if($result1->num_rows == 0){
-        echo 'either your password or username is incorrect . Kindly check again or create an account';
+    if($_SESSION["code1"]  == 0){
+        //unset can be used like this
+         unset($_SESSION['code1']); 
+        echo"to restart you need to login and verify your identity again";
     }
-}
-  
- if(empty($accountpassword)== TRUE || empty($email)== TRUE){
-    echo'you can not leave it blank';
-}
-}
-function test_input($data) {
-  $data = trim($data);
-  $data = stripslashes($data);
-  $data = htmlspecialchars($data);
-  return $data;
-}
-function onrepeatcode($a,$b,$conn1){
-    $sql4 = "SELECT code FROM t20 WHERE email ='$email'";
-    $res1 =$conn1->query($sql4);
-    if($res1->num_rows >0){
+    while($_SESSION["code1"]){
+        
 for($i=1;$i>0;$i++){
          $temp = date('i');
          if($b>60){
@@ -62,8 +32,8 @@ for($i=1;$i>0;$i++){
                 $a= $temp;
                 $b =$a+1;
                 $apirandom =rand(1,1000);
-                 repeatingimage($apirandom);
-                onrepeatcode($a ,$b,$conn1);
+                 repeatingimage($apirandom,$email1);
+                onrepeatcode($a,$b,$email1);
                  }
          }
          if($b<=60){
@@ -71,23 +41,17 @@ for($i=1;$i>0;$i++){
                 $a= $temp;
                 $b =$a+1;
                 $apirandom =rand(1,1000);
-                 repeatingimage($apirandom);
-                onrepeatcode($a ,$b,$conn1);
+                 repeatingimage($apirandom,$email1);
+                
+                onrepeatcode($a,$b,$email1);
                  } 
          }        
-    }}
-    if($res1->num_rows ==0){
-        $random =rand(10,1000);
-            $sql3 = "UPDATE t20 SET code = '$random' WHERE email='$email'";
-            $result3 =$conn->query($sql3);
-            $a = date('i');
-            $b =date('i')+1;
-            onrepeatcode($a,$b,$conn1);
     }
-}
+    }
+        
+    }
 
-
-function repeatingimage($rep1){
+function repeatingimage($rep1,$email2){
 $img= "https://xkcd.com/".$rep1."/info.0.json";
 
 $curl = curl_init($img);
@@ -98,7 +62,7 @@ curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 $response = curl_exec($curl);
 $data = json_decode($response);
 $x = $data->img;
-echo $x ;
+//echo $x ;
 $curl1 = curl_init($x);
 curl_setopt($curl1, CURLOPT_RETURNTRANSFER, true);
 // 2. Set the CURLOPT_POST option to true for POST request
@@ -150,31 +114,5 @@ $subject = 'hey';
     $body .= $content."/r/n"; // Attaching the encoded file with email
     $body .= "--simpleboundary--\r\n";
     
-     mail('test2mail2698@gmail.com', $subject, $body, $headers);
+     mail($email2, $subject, $body, $headers);
 }
-
-?>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title></title>
-        
-    </head>
-    <body>
-       <h2>PHP Form Validation Example</h2>
-<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">  
-  
-  E-mail: <input type="text" name="email">
-  <br><br>
-  Password: <input type="password" name="password">
-  <br><br>
-     <input type="submit" name="submit" value="Submit"> 
-</form>
-       <br>
-       <a href="index.php">click to create account</a><br>
-       <br>
-        <a href ="logintostop.php"> click to stop emails</a>
-        <br>
-    </body>
-</html>
-  

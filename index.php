@@ -1,68 +1,94 @@
-<!DOCTYPE html>
-<!--
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/Project/PHP/PHPProject.php to edit this template
--->
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title></title>
-        <?php
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  $name = test_input($_POST["name"]);
-  $email = test_input($_POST["email"]);
-  $password1 = test_input($_POST["password1"]);
-  $password2 = test_input($_POST["password2"]);
-  if(filter_var($email ,FILTER_VALIDATE_EMAIL)== TRUE && empty($name) == FALSE && $password1 == $password2){
-      $random = rand(10,1000);
-      mail("test2mail2698@gmail.com", "one time code", $random);
-      $correctemail ="<html>
-    <head>
-       <title></title> </head>
-    <body>
-    <form method ='post' action ='verify2sv.php'>
-    <input type='hidden' name='hiddencode' value =$random>
-    <input type='hidden' name='name' value =$name>
-    <input type='hidden' name='email' value =$email> 
-    <input type='hidden' name='password' value =$password1>
-     <input type='number' name='twosvcode' >   
-    <input type='submit' name='submitcode' value ='Submit'>
-    </form>
-    </body>
-</html>";
-      echo $correctemail;
-      
-  }
-  if(filter_var($email ,FILTER_VALIDATE_EMAIL)== FALSE){
-      $incorrectemail ="email is incorrect . Kindly try again";
-      echo $incorrectemail;
-  }
-  if($password1!=$password2){
-      echo"kindly check the passwords";
-  }
+<?php
+
+/* 
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHP.php to edit this template
+ */
+session_start();
+ini_set('max_execution_time', 0);// i have not included this line in the commit
+
+if($_SERVER["REQUEST_METHOD"] == "POST"){
+    $email = test_input($_POST["email"]);
+    $accountpassword = test_input($_POST["password"]);
+    
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "test";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+  die("Connection failed: " . $conn->connect_error);
 }
 
+if(empty($accountpassword)== FALSE && empty($email)== FALSE){
+    
+$sql1 = "SELECT name FROM t1 WHERE email ='$email' AND password='$accountpassword' ";
+$result1 = $conn->query($sql1);
+
+ if ($result1->num_rows > 0) {
+  // output data of each row
+     
+     $_SESSION["code1"] = 1;
+         $s ="<html>
+    <head>
+        <title>TODO supply a title</title>
+        
+    </head>
+    <body>
+        <form method='post' action='startcode.php'>  
+  <input type='hidden' name='hiddenemail' value='$email'> 
+  <br><br>
+     <input type='submit' name='submit' value='startcode'> 
+        </form><!-- comment -->
+        <form method='post' action='stopcode.php'>  
+  <input type='hidden' name='hiddenemail' value='$email'>
+      <input type='hidden' name='hiddenpassword' value='$accountpassword'>
+  <br><br>
+     <input type='submit' name='submit' value='stopcode'> 
+        </form><!-- comment -->
+    </body>
+</html>";
+echo $s ;
+ }
+    if($result1->num_rows == 0){
+        echo 'either your password or username is incorrect . Kindly check again or create an account';
+    }
+}
+  
+ if(empty($accountpassword)== TRUE || empty($email)== TRUE){
+    echo'you can not leave it blank';
+}
+}
 function test_input($data) {
   $data = trim($data);
   $data = stripslashes($data);
   $data = htmlspecialchars($data);
   return $data;
 }
-        ?>
+
+?>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title></title>
+        
     </head>
     <body>
-       <h2>PHP Form Validation Example</h2>
+       <h2>PHP Form Validation To start emails</h2>
 <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">  
-  Name: <input type="text" name="name">
-  <br><br>
+  
   E-mail: <input type="text" name="email">
   <br><br>
-  Password: <input type="password" name="password1">
+  Password: <input type="password" name="password">
   <br><br>
-  Enter password again: <input type="password" name="password2">
-  <br><br>
-   <input type="submit" name="submit" value="Submit"> 
+     <input type="submit" name="submit" value="Submit"> 
 </form>
+       <br><br>
+       <a href ="createaccount.php"> create account</a> 
     </body>
 </html>
   
