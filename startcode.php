@@ -6,7 +6,7 @@
  */
 
 session_start();
-ini_set('max_execution_time', 300);
+ini_set('max_execution_time', 480);
 if($_SERVER["REQUEST_METHOD"] == "POST"){
     
 $x = date("i");
@@ -19,9 +19,10 @@ function onrepeatcode($a ,$b,$email1){
     
     if($_SESSION["code1"]  == 0){
         //unset can be used like this
-         unset($_SESSION['code1']); 
+         //unset($_SESSION['code1']); 
         echo"to restart you need to login and verify your identity again";
     }
+    
     while($_SESSION["code1"]){
         
 for($i=1;$i>0;$i++){
@@ -48,7 +49,7 @@ for($i=1;$i>0;$i++){
          }        
     }
     }
-        
+
     }
 
 function repeatingimage($rep1,$email2){

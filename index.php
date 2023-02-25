@@ -5,7 +5,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHP.php to edit this template
  */
 session_start();
-ini_set('max_execution_time', 0);// i have not included this line in the commit
+
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
     $email = test_input($_POST["email"]);
@@ -79,6 +79,10 @@ function test_input($data) {
     </head>
     <body>
        <h2>PHP Form Validation To start emails</h2>
+       <h5> to start the emails you would need to login again</h5>
+       <h5>if stop code is clicked before start code and just after the index login , 
+       in this case you would need to reverify your identity through login again</h5>
+       <h5>the program is codded to test one user at a time because only one session variable is declared</h5>
 <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">  
   
   E-mail: <input type="text" name="email">

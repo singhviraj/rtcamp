@@ -10,8 +10,8 @@ ini_set('max_execution_time', 300);
 $x = date("i");
 $y = date("i") +1 ;
 test($x,$y);
-function test($a ,$b){
-    if($_SESSION["code1"]  == 1){
+function onrepeatcode($a ,$b){
+    
     while($_SESSION["code1"]){
 for($i=1;$i>0;$i++){
          $temp = date('i');
@@ -20,21 +20,26 @@ for($i=1;$i>0;$i++){
              if($b==$temp){
                 $a= $temp;
                 $b =$a+1;
-                mail("sviraj347@gmail.com","heey" ,"hi");
-                test($a,$b);
+                $apirandom =rand(1,1000);
+                 repeatingimage($apirandom,$email1);
+                onrepeatcode($a,$b);
                  }
          }
          if($b<=60){
             if($b==$temp){
                 $a= $temp;
                 $b =$a+1;
-                mail("sviraj347@gmail.com","heey" ,"hi");
-                test($a,$b);
+                $apirandom =rand(1,1000);
+                 repeatingimage($apirandom,$email1);
+                
+                onrepeatcode($a,$b);
                  } 
          }        
     }
-    }}
+    }
     if($_SESSION["code1"]  == 0){
+        //unset can be used like this
+         unset($_SESSION['code1']); 
         echo"to restart you need to login and verify your identity again";
     }
     
