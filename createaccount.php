@@ -6,7 +6,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Project/PHP/PHPProject.php to edi
 <html>
     <head>
         <meta charset="UTF-8">
-        <title></title>
+        <title>Enter the details below</title>
         <?php
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $name = test_input($_POST["name"]);
@@ -59,6 +59,7 @@ function test_input($data) {
   <br><br>
   Password: <input type="password" name="password1">
   <br><br>
+  <h5>passwords are case insensitive</h5>
   Enter password again: <input type="password" name="password2">
   <br><br>
    <input type="submit" name="submit" value="Submit"> 

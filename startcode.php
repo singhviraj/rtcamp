@@ -5,26 +5,19 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHP.php to edit this template
  */
 
-session_start();
-ini_set('max_execution_time', 480);
+
+ini_set('max_execution_time', 0);
 if($_SERVER["REQUEST_METHOD"] == "POST"){
-    
+    $min =0;
+    $max = $_POST["limit"];
 $x = date("i");
 $y = date("i") +1 ;
 $email = $_POST["hiddenemail"];
-onrepeatcode($x,$y,$email);
+onrepeatcode($x,$y,$email,$min,$max);
 
 }
-function onrepeatcode($a ,$b,$email1){
-    
-    if($_SESSION["code1"]  == 0){
-        //unset can be used like this
-         //unset($_SESSION['code1']); 
-        echo"to restart you need to login and verify your identity again";
-    }
-    
-    while($_SESSION["code1"]){
-        
+function onrepeatcode($a ,$b,$email1,$g1,$g2){
+
 for($i=1;$i>0;$i++){
          $temp = date('i');
          if($b>60){
@@ -33,22 +26,33 @@ for($i=1;$i>0;$i++){
                 $a= $temp;
                 $b =$a+1;
                 $apirandom =rand(1,1000);
+                if($g1<$g2){
                  repeatingimage($apirandom,$email1);
-                onrepeatcode($a,$b,$email1);
-                 }
+                 ++$g1;
+                onrepeatcode($a,$b,$email1,$g1,$g2);
+             }
+             if($g1>=$g2){
+                 die("Emails are stopped .To restart kindly login again");
+             }
+                }
          }
          if($b<=60){
             if($b==$temp){
                 $a= $temp;
                 $b =$a+1;
                 $apirandom =rand(1,1000);
+                   if($g1<$g2){
                  repeatingimage($apirandom,$email1);
-                
-                onrepeatcode($a,$b,$email1);
-                 } 
+                 ++$g1;
+                onrepeatcode($a,$b,$email1,$g1,$g2);
+             }
+             if($g1 >= $g2){
+                 die("Emails are stopped .To restart kindly login again");
+             }
+                   } 
          }        
     }
-    }
+    
 
     }
 

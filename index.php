@@ -4,7 +4,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHP.php to edit this template
  */
-session_start();
 
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -32,7 +31,7 @@ $result1 = $conn->query($sql1);
  if ($result1->num_rows > 0) {
   // output data of each row
      
-     $_SESSION["code1"] = 1;
+     
          $s ="<html>
     <head>
         <title>TODO supply a title</title>
@@ -40,16 +39,13 @@ $result1 = $conn->query($sql1);
     </head>
     <body>
         <form method='post' action='startcode.php'>  
+        <h4>enter the number of times you want to receive emails after every minute</h4>
+        <input type ='number' name ='limit' placeholder ='type the number'>
   <input type='hidden' name='hiddenemail' value='$email'> 
   <br><br>
      <input type='submit' name='submit' value='startcode'> 
         </form><!-- comment -->
-        <form method='post' action='stopcode.php'>  
-  <input type='hidden' name='hiddenemail' value='$email'>
-      <input type='hidden' name='hiddenpassword' value='$accountpassword'>
-  <br><br>
-     <input type='submit' name='submit' value='stopcode'> 
-        </form><!-- comment -->
+        
     </body>
 </html>";
 echo $s ;
@@ -80,9 +76,6 @@ function test_input($data) {
     <body>
        <h2>PHP Form Validation To start emails</h2>
        <h5> to start the emails you would need to login again</h5>
-       <h5>if stop code is clicked before start code and just after the index login , 
-       in this case you would need to reverify your identity through login again</h5>
-       <h5>the program is codded to test one user at a time because only one session variable is declared</h5>
 <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">  
   
   E-mail: <input type="text" name="email">
