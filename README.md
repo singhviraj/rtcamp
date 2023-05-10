@@ -23,7 +23,7 @@ to fetch details when the user log's in from the next time.
 
 Issues I faced and things I learned .
 
-1)send an email
+1)Send an email -
 To send the emails using mail function I have to configure the path of sendmail.exe and smtp port in php.ini ,allow imap settings of my gmail from my gmail account so that I may use my email address to receive emails 
 ,add an app password for my email so that my locat host can use it to send emails as gmail no longer supports the feature of turning on less secure apps .
 I refred the youtube video/articles below to configure the email settings in localhost and add an app password using the articles below respectively
