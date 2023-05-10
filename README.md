@@ -54,10 +54,10 @@ To transfer the certificates I used the steps below
 https://www.digicert.com/kb/ssl-support/apache-ssl-export.htm
 
 I tried making an api call and opeining the file using fetch comand with async ()(javascript) and fetching it with XMLhttpRequest()'s object(javascript) but getting he ssl related error.
-There were only 3 resolutions left after many weeks of struggle
-1 Update my laptop to windows 10 or latest
-2 Fix it with dll
-3 change my laptop
+There were only 3 resolutions left after many weeks of struggle -
+1 Update my laptop to windows 10 or latest,
+2 Fix it with dll,
+3 change my laptop,
 
 I tried replacing the curropted dll files by downloading the new ones from internet or copy pasting from a good pc but whenever 
 i restarted the pc the same files were there which most probalby seemed to be the issue .
